@@ -28,7 +28,36 @@ SQL ～ゼロからはじめるデータベース操作～
     - テーブルの定義変更  
     ALTER TABLE <table_name> ADD COLUMN col_name INTEGER NOT NULL  
     ALTER TABLE <table_name> DROP COLUMN col_name  
+
 2. 検索の基本  
+- 算術演算子と比較演算子  
+NULLに比較演算子は使えない  
+NULLとの演算はNULLが返る  
+SELECT * FROM table WHERE col IS (NOT) NULL  
+- 論理演算子  
+SELECT * FROM table WHERE NOT col > 0  
 
+3. 集約と並び替え  
+- テーブルを集約して検索する  
+SELECT (*) FROM table ⇒ 全行をカウント  
+SELECT (col) FROM table ⇒ NULLでない行をカウント  
+SELECT (DISTINCT col) FROM table ⇒ NULLでない行を重複を除いてカウント  
+- 集約した結果に条件を指定する  
+HAVINGを用いる  
+    ~~~
+    SELECT col, COUNT(*)
+        FROM table
+        GROUP BY col
+        HAVING count(*) = 2
+    ~~~
+- 検索結果を並び替える  
+ソート処理はマシンの負荷が大きい  
+集約関数でもソートできる  
+    ~~~
+    SELECT col 
+        FROM table 
+        GROUP BY col 
+        ORDER BY COUNT(*)
+    ~~~
 
-
+4. データの更新  
